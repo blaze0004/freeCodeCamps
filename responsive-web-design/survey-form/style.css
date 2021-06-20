@@ -1,0 +1,63 @@
+body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(125deg, grey, blue);
+    background-image: url("https://cdn.freecodecamp.org/testable-projects-fcc/images/survey-form-background.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  #mainContainer {
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  
+  #headerContainer {
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    color: white;
+  }
+  
+  #formContainer {
+    background: linear-gradient(120deg, purple, black);
+    padding: 30px 60px;
+    flex: 1;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  #formInputs {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    font-size: 2em;
+  }
+  
+  input,
+  select {
+    padding: 8px;
+  }
+  
+  input[type="checkbox"], input[type="radio"] {
+    padding: 10px
+  }
+  
+  button {
+    padding: 16px;
+    background-color: lightblue;
+    font-size: 1em;
+  }
+  
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+  }
+  
