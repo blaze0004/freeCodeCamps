@@ -7,9 +7,11 @@ const quotesPath =
   "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
 
 const getRandomColor = () => {
-  const r = Math.random() * 255;
-  const b = Math.random() * 255;
-  const g = Math.random() * 255;
+  const min = 50;
+  const max = 180;
+  const r = Math.random() * (max - min + 1) + min;
+  const b = Math.random() * (max - min + 1) + min;
+  const g = Math.random() * (max - min + 1) + min;
   return `rgb(${r}, ${g}, ${b})`;
 };
 

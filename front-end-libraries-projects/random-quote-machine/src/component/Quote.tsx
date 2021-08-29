@@ -64,6 +64,7 @@ const Quote: React.FC<{
               href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${quote}`}
               target="_blank"
               id="tweet-quote"
+              rel='noreferrer'
               style={{ color: "white", textDecoration: "none" }}
             >
               Tweet <FontAwesomeIcon icon={faShare} size="1x" color="white" />
