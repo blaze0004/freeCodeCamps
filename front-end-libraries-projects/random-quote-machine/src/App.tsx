@@ -61,12 +61,24 @@ const App = () => {
   return (
     <div className="App" style={{ backgroundColor: quote.color }}>
       {quote.quote ? (
-        <Quote
-          author={quote.author}
-          quote={quote.quote}
-          color={quote.color}
-          onNext={() => setRandomQuote()}
-        />
+        <>
+          <Quote
+            author={quote.author}
+            quote={quote.quote}
+            color={quote.color}
+            onNext={() => setRandomQuote()}
+          />
+          <span style={{ textAlign: "center", marginTop: 12 }}>
+            <a
+              style={{ color: "white", textDecoration: "none" }}
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/blaze0004/freeCodeCamps"
+            >
+              GitHub | @Blaze0004
+            </a>
+          </span>
+        </>
       ) : (
         <div>loading...</div>
       )}
