@@ -5,7 +5,7 @@ const DrumPad: React.FC<{
   id: string;
   url: string;
   volume: number;
-  isPowerOn: number;
+  isPowerOn: boolean;
   onPlay: (keyTrigger: string) => void;
   onComplete: () => void;
 }> = (props) => {

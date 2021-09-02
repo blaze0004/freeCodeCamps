@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DrumPad from "./DrumPad";
+import SwitchInput from "./SwitchInput/SwitchInput";
 
 const bankOne = [
   {
@@ -118,12 +119,12 @@ const bankTwo = [
 const banks = [bankOne, bankTwo];
 
 const DrumMachine: React.FC = () => {
-  const [selectedBankIndex, setSelectedBankIndex] = useState(0);
+  const [isBankOne, setIsBankOne] = useState(true);
   const [volume, setVolume] = useState<number>(1);
   const [selectedKeyTrigger, setSelectedKeyTrigger] = useState<string | null>(
     null
   );
-  const [isPowerOn, setIsPowerOn] = useState<number>(1);
+  const [isPowerOn, setIsPowerOn] = useState<boolean>(true);
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value);
@@ -131,13 +132,11 @@ const DrumMachine: React.FC = () => {
   };
 
   const handlePowerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value);
-    setIsPowerOn(value);
+    setIsPowerOn(prev => !prev);
   };
 
   const handleBankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value);
-    setSelectedBankIndex(value);
+    setIsBankOne(prev => !prev);
   }
 
   const handleOnPlay = (keyTrigger: string) => {
@@ -165,7 +164,7 @@ const DrumMachine: React.FC = () => {
       </div>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {banks[selectedBankIndex]
+          {banks[isBankOne ? 0 : 1]
             .map((x) => ({ ...x, volume, isPowerOn }))
             .map((x) => (
               <DrumPad
@@ -185,21 +184,7 @@ const DrumMachine: React.FC = () => {
           }}
         >
           <div>
-            <label htmlFor="power">Power</label>
-            <input
-              type="radio"
-              name="power"
-              value={0}
-              checked={isPowerOn === 0}
-              onChange={handlePowerChange}
-            />
-            <input
-              type="radio"
-              name="power"
-              value={1}
-              checked={isPowerOn === 1}
-              onChange={handlePowerChange}
-            />
+            <SwitchInput name='power' isChecked={isPowerOn} onChange={handlePowerChange} />
           </div>
           <div>{selectedKeyTrigger ?? "Smooth Piano Kit"}</div>
           <div>
@@ -214,21 +199,7 @@ const DrumMachine: React.FC = () => {
             />
           </div>
           <div>
-            <label htmlFor="bank">Bank</label>
-            <input
-              type="radio"
-              name="bank"
-              value={0}
-              checked={selectedBankIndex === 0}
-              onChange={handleBankChange}
-            />
-            <input
-              type="radio"
-              name="bank"
-              value={1}
-              checked={selectedBankIndex === 1}
-              onChange={handleBankChange}
-            />
+            <SwitchInput name='bank' isChecked={isBankOne} onChange={handleBankChange}/>
           </div>
         </div>
       </div>

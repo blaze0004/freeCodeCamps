@@ -1,0 +1,29 @@
+
+input.switchInput { 
+    display: none;
+}
+
+.switchInputLabel {
+display: inline-block;
+background-color: grey;
+width: 50px;
+height: 25px;
+padding: 2%;
+position: relative;
+border-radius: 9999px;
+}
+
+.switchInputLabel::after {
+position: absolute;
+content: '';
+width: 25px;
+height: 25px;
+border-radius: 50%;
+background-color: lightgrey;
+transition: transform .5s, background-color .5s;
+}
+
+input.switchInput:checked + .switchInputLabel::after {
+transform: translateX(25px);
+background-color: black;
+}
