@@ -1,5 +1,5 @@
 
-.drum-pad:hover {
+.drum-pad:hover, .hover {
     transform: scale(105%);
     z-index: 1;
     border-radius: 5px;

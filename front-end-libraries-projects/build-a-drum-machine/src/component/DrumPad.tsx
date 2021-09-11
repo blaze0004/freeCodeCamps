@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './DrumPad.css';
 
 const DrumPad: React.FC<{
@@ -11,12 +11,17 @@ const DrumPad: React.FC<{
     onComplete: () => void;
 }> = (props) => {
     const { id, keyTrigger, url, volume, isPowerOn, onComplete, onPlay } = props;
+    const [showHoverEffect, setShowHoverEffect] = useState(false);
 
     const playSound = useCallback(async () => {
         if (isPowerOn) {
             onPlay(id.replace(/-/g, ' '));
+            setShowHoverEffect(true);
             const audio = document.getElementById(keyTrigger) as HTMLAudioElement;
             await audio.play().catch((e) => audio.pause());
+            setTimeout(() => {
+                setShowHoverEffect(false);
+            }, 250)
         }
     }, [isPowerOn, keyTrigger, onPlay, id]);
 
@@ -39,8 +44,8 @@ const DrumPad: React.FC<{
     }, [volume, keyTrigger]);
 
     return (
-        <div id={id} className='drum-pad' onClick={playSound}>
-            <audio className='clip' src={url} id={keyTrigger} onEnded={onComplete} />
+        <div id={id} className={`drum-pad ${showHoverEffect ? 'hover' : ''}`} onClick={playSound}>
+            <audio className='clip' src={url} id={keyTrigger} onEnded={() => { onComplete(); setShowHoverEffect(false); }} />
             <span className='drum-pad-text'>{keyTrigger}</span>
         </div>
     );
