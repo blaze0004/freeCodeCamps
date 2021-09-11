@@ -1,0 +1,47 @@
+.drum-machine-root {
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    border-radius: 5px;
+    width: 60vw;
+}
+
+.drum-machine-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 5px;  
+}
+
+.drum-machine-switches {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+
+.drum-machine-switches > div {
+    margin: 5px
+} 
+
+.drum-machine-volume {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drum-machine-pads {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.drum-machine-footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.drum-machine-link a {
+    text-decoration: none;
+    color: black;
+}
