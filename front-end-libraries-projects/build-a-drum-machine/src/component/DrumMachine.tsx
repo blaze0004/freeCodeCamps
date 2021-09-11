@@ -1,210 +1,76 @@
-import React, { useState } from "react";
-import DrumPad from "./DrumPad";
-import SwitchInput from "./SwitchInput/SwitchInput";
+import React, { useState } from 'react';
+import DrumPad from './DrumPad';
+import SwitchInput from './SwitchInput/SwitchInput';
+import trackData from './../assets/master_data/tracks-data.json';
+import './DrumMachine.css';
 
-const bankOne = [
-  {
-    keyCode: 81,
-    keyTrigger: "Q",
-    id: "Heater-1",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
-  },
-  {
-    keyCode: 87,
-    keyTrigger: "W",
-    id: "Heater-2",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3",
-  },
-  {
-    keyCode: 69,
-    keyTrigger: "E",
-    id: "Heater-3",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
-  },
-  {
-    keyCode: 65,
-    keyTrigger: "A",
-    id: "Heater-4",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
-  },
-  {
-    keyCode: 83,
-    keyTrigger: "S",
-    id: "Clap",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
-  },
-  {
-    keyCode: 68,
-    keyTrigger: "D",
-    id: "Open-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3",
-  },
-  {
-    keyCode: 90,
-    keyTrigger: "Z",
-    id: "Kick-n'-Hat",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3",
-  },
-  {
-    keyCode: 88,
-    keyTrigger: "X",
-    id: "Kick",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3",
-  },
-  {
-    keyCode: 67,
-    keyTrigger: "C",
-    id: "Closed-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
-  },
-];
-
-const bankTwo = [
-  {
-    keyCode: 81,
-    keyTrigger: "Q",
-    id: "Chord-1",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3",
-  },
-  {
-    keyCode: 87,
-    keyTrigger: "W",
-    id: "Chord-2",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3",
-  },
-  {
-    keyCode: 69,
-    keyTrigger: "E",
-    id: "Chord-3",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3",
-  },
-  {
-    keyCode: 65,
-    keyTrigger: "A",
-    id: "Shaker",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3",
-  },
-  {
-    keyCode: 83,
-    keyTrigger: "S",
-    id: "Open-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3",
-  },
-  {
-    keyCode: 68,
-    keyTrigger: "D",
-    id: "Closed-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3",
-  },
-  {
-    keyCode: 90,
-    keyTrigger: "Z",
-    id: "Punchy-Kick",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3",
-  },
-  {
-    keyCode: 88,
-    keyTrigger: "X",
-    id: "Side-Stick",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3",
-  },
-  {
-    keyCode: 67,
-    keyTrigger: "C",
-    id: "Snare",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3",
-  },
-];
-
-const banks = [bankOne, bankTwo];
+type Tracks = 'smoothPianoKit' | 'heaterKit';
 
 const DrumMachine: React.FC = () => {
-  const [isBankOne, setIsBankOne] = useState(true);
-  const [volume, setVolume] = useState<number>(1);
-  const [selectedKeyTrigger, setSelectedKeyTrigger] = useState<string | null>(
-    null
-  );
-  const [isPowerOn, setIsPowerOn] = useState<boolean>(true);
+    const [currentTrackName, setCurrentTrackName] = useState<Tracks>('smoothPianoKit');
+    const [volume, setVolume] = useState<number>(1);
+    const [status, showStatus] = useState<string>('DrumMachine');
+    const [isPowerOn, setIsPowerOn] = useState<boolean>(true);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value);
-    setVolume(value / 100);
-  };
+    const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number.parseInt(e.target.value);
+        setVolume(value / 100);
+        showStatus(`Volume: ${value}`);
+    };
 
-  const handlePowerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsPowerOn(prev => !prev);
-  };
+    const handlePowerChange = (_: React.ChangeEvent<HTMLInputElement>) => {
+        setIsPowerOn((prev) => !prev);
+        showStatus(`Power: ${!isPowerOn ? 'On' : 'Off'}`);
+    };
 
-  const handleBankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsBankOne(prev => !prev);
-  }
+    const handleTrackChange = (_: React.ChangeEvent<HTMLInputElement>) => {
+        setCurrentTrackName((prev) => (prev === 'heaterKit' ? 'smoothPianoKit' : 'heaterKit'));
+        showStatus(`Track: ${currentTrackName === 'heaterKit' ? 'Smooth Piano Kit' : 'Heater Kit'}`);
+    };
 
-  const handleOnPlay = (keyTrigger: string) => {
-    setSelectedKeyTrigger(keyTrigger);
-  };
+    const handleOnPlay = (keyTrigger: string) => {
+        showStatus(keyTrigger);
+    };
 
-  const handleOnPlayComplete = () => {
-    setSelectedKeyTrigger(null);
-  };
+    const resetStatusMessage = () => {
+        setTimeout(() => {
+            showStatus('DrumMachine');
+        }, 1000);
+    };
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 5,
-        backgroundColor: "lightgray",
-        borderRadius: 8,
-        border: "0.3rem solid orange",
-        width: "40vw",
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        Drums Machine
-      </div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {banks[isBankOne ? 0 : 1]
-            .map((x) => ({ ...x, volume, isPowerOn }))
-            .map((x) => (
-              <DrumPad
-                {...x}
-                key={x.id}
-                onPlay={handleOnPlay}
-                onComplete={handleOnPlayComplete}
-              />
-            ))}
+    return (
+        <div id='drum-machine' className='drum-machine-root'>
+            <div className='drum-machine-header'>
+                <div className='drum-machine-switches'>
+                    <SwitchInput name='power' label='Power' checked={isPowerOn} onChange={handlePowerChange} />
+                    <SwitchInput name='soundTrack' label='SoundTrack' checked={currentTrackName === 'smoothPianoKit'} onChange={handleTrackChange} />
+                </div>
+                <div className='drum-machine-volume'>
+                    <label htmlFor='volume'>Volume</label>
+                    <input type='range' min={0} max={100} name='volume' value={volume * 100} onChange={handleVolumeChange} />
+                </div>
+            </div>
+            <div className='drum-machine-pads'>
+                {trackData[currentTrackName]
+                    .map((x) => ({ ...x, volume, isPowerOn }))
+                    .map((x) => (
+                        <DrumPad {...x} key={x.id} onPlay={handleOnPlay} onComplete={() => resetStatusMessage()} />
+                    ))}
+            </div>
+            <div className='drum-machine-footer'>
+                <span id='display' className='drum-machine-status'>
+                    <strong>
+                        {status}
+                    </strong>
+                </span>
+                <span className='drum-machine-link'>
+                    <a target='_blank' rel='noreferrer' href='https://github.com/blaze0004/freeCodeCamps'>
+                        GitHub | @Blaze0004
+                    </a>
+                </span>
+            </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexGrow: 1,
-            flexWrap: "wrap",
-            flexDirection: "column",
-          }}
-        >
-          <div>
-            <SwitchInput name='power' isChecked={isPowerOn} onChange={handlePowerChange} />
-          </div>
-          <div>{selectedKeyTrigger ?? "Smooth Piano Kit"}</div>
-          <div>
-            <label htmlFor="volume">Volume</label>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              name="volume"
-              value={volume * 100}
-              onChange={handleVolumeChange}
-            />
-          </div>
-          <div>
-            <SwitchInput name='bank' isChecked={isBankOne} onChange={handleBankChange}/>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default DrumMachine;

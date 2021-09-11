@@ -1,0 +1,24 @@
+
+.drum-pad:hover {
+    transform: scale(105%);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.drum-pad {
+    padding: 25%;
+    border:none;    
+    background: rgb(0,0,0);
+    background: -moz-radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(52,63,65,0.9640231092436975) 100%);
+    background: -webkit-radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(52,63,65,0.9640231092436975) 100%);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(52,63,65,0.9640231092436975) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#343f41",GradientType=1);
+    position: relative;
+}
+
+.drum-pad-text {
+    color: white;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}

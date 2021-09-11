@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './SwitchInput.css';
 
-const SwitchInput: React.FC<{ onChange: Function; name: string; isChecked: boolean }> = (props) => {
-    const { onChange, name, isChecked } = props;
-    const [checked, setChecked] = useState(isChecked);
-
-    useEffect(() => {
-        setChecked(isChecked);
-    }, [isChecked]);
-
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
-        console.log(e.target.value);
-    };
+const SwitchInput: React.FC<{
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    name: string;
+    label: string;
+    checked: boolean;
+}> = (props) => {
+    const { onChange, name, label, checked } = props;
 
     return (
-        <>
-            <input type='checkbox' className="switchInput" id={name} name={name} onChange={handleOnChange} checked={checked} />
-            <label className='switchInputLabel' htmlFor={name}></label>
-        </>
+        <div>
+            <div>{label}</div>
+            <div>
+                <input
+                    type='checkbox'
+                    className='switchInput'
+                    id={name}
+                    name={name}
+                    onChange={onChange}
+                    checked={checked}
+                />
+                <label className='switchInputLabel' htmlFor={name}></label>
+            </div>
+        </div>
     );
 };
 
