@@ -1,0 +1,11 @@
+.input-button {
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    color: white;
+    border: 1px solid white;
+}
+
+.input-button:hover {
+    background-color: darkslategrey;
+}
