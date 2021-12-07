@@ -1,18 +1,16 @@
-import './DisplayPanel.css';
+import "./DisplayPanel.css";
 
-const DisplayPanel: React.FC<DisplayPanelProps> = (props) => <div className='display-panel'>
-    <div className='display-panel-input'>{props.result}</div>
-    <div className='display-panel-result'>{props.input}</div>
-</div>
+const DisplayPanel: React.FC<DisplayPanelProps> = (props) => (
+  <div id="display-wrapper" className="display-panel">
+    <div className="display-panel-input"> {`${!!props.expression ? props.expression : '0'}${props.answer ? ' =' + props.answer : ''}`}</div>
+    <div id='display' className="display-panel-input">{!!props.input ? props.input : '0'}</div>
+  </div>
+);
 
 interface DisplayPanelProps {
-    input?: string;
-    result?: string;
-}
-
-DisplayPanel.defaultProps = {
-    input: '12334-12312',
-    result: '1231'
+  input: string;
+  answer: string;
+  expression: string;
 }
 
 export default DisplayPanel;

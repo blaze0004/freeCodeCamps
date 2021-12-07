@@ -5,35 +5,128 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel";
 import InputPanel from "./InputPanel/InputPanel";
 
 const Calculator: React.FC = () => {
-  const [result, setResult] = useState("");
-  const [input, setInput] = useState("0");
+  const [answer, setAnswer] = useState("");
+  const [expression, setExpression] = useState("");
+  const [input, setInput] = useState("");
+
+  const handleCancel = () => {
+    setAnswer("");
+    setExpression("");
+    setInput("");
+  };
+
+  const handleNumber = (value: string) => {
+    if (answer) {
+      setInput(value);
+      setExpression(value);
+      setAnswer("");
+    } else {
+      setInput((prev) =>
+        prev.includes(".") ||
+        (prev.length >= 1 && Utils.isNumber(prev[prev.length - 1]) && prev[prev.length - 1] !== '0')
+          ? prev + value
+          : value
+      );
+      setExpression((prev) => prev + value);
+    }
+  };
+
+  const handleDecimal = () => {
+    const hasNoOperatorOrDecimal =
+      !Utils.MATH_OPERATORS.some((x) => expression.includes(x)) &&
+      !expression.includes(".");
+
+    if (hasNoOperatorOrDecimal) {
+      setExpression((prev) => prev + ".");
+      setInput((prev) =>
+        Utils.isNumber(prev[prev.length - 1]) ? prev + "." : "."
+      );
+      return;
+    }
+
+    const lastIndexOfOperator = Math.max(
+      ...Utils.MATH_OPERATORS.map((x) => expression.lastIndexOf(x))
+    );
+    const lastIndexOfDecimal = expression.lastIndexOf(".");
+    if (lastIndexOfDecimal < lastIndexOfOperator) {
+      setExpression((prev) => prev + ".");
+      setInput((prev) =>
+        Utils.isNumber(prev[prev.length - 1]) ? prev + "." : "."
+      );
+    }
+  };
+
+  const handleMathOperator = (value: string) => {
+    if (answer) {
+      setExpression(answer + value);
+      setInput(value);
+      setAnswer("");
+      return;
+    }
+    if (value === "-") {
+      if (expression.length) {
+        if (
+          expression.length >= 2 &&
+          Utils.isMathOperator(expression[expression.length - 1]) &&
+          Utils.isMathOperator(expression[expression.length - 2])
+        ) {
+          setExpression((prev) => prev.substring(0, prev.length - 1) + value);
+        } else {
+          setExpression((prev) => prev + value);
+        }
+      } else {
+        setExpression((prev) => prev + value);
+      }
+    } else {
+      if (
+        expression.length >= 2 &&
+        Utils.isMathOperator(expression[expression.length - 2]) &&
+        expression[expression.length - 1] === "-"
+      ) {
+        setExpression((prev) => prev.substring(0, prev.length - 2) + value);
+      } else if (Utils.isMathOperator(expression[expression.length - 1])) {
+        setExpression((prev) => prev.substring(0, prev.length - 1) + value);
+      } else {
+        setExpression((prev) => prev + value);
+      }
+    }
+
+    setInput(value);
+  };
+
+  const handleEqual = () => {
+    let result = "";
+    if (
+      expression.length &&
+      Utils.isMathOperator(expression[expression.length - 1])
+    ) {
+      setExpression((prev) => prev.substring(0, prev.length - 1));
+      result = expression.substring(0, expression.length - 1);
+    } else {
+      result = Utils.calculate(expression);
+    }
+
+    setAnswer(result);
+    setInput(result);
+  };
 
   const handleClick = (value: string) => {
     if (Utils.isCancel(value)) {
-      setInput('0');
-      setResult('');
+      handleCancel();
     } else if (Utils.isNumber(value)) {
-      setInput(prev => prev.length === 1 && prev === '0' ? value : prev + value);
-    } else if (Utils.isDecimal(value) && !input.includes('.')) {
-      setInput(prev => prev + value);
+      handleNumber(value);
+    } else if (Utils.isDecimal(value)) {
+      handleDecimal();
     } else if (Utils.isMathOperator(value)) {
-        setInput((prevValue) => {
-          const isPreviousAlsoMathOperator = Utils.isMathOperator(prevValue[prevValue.length - 1]);
-          if (isPreviousAlsoMathOperator) {
-            const newInput = prevValue.substring(0, prevValue.length - 1) + value;
-            return newInput;
-          } else {
-            return prevValue + value;
-          }
-        });
+      handleMathOperator(value);
     } else if (Utils.isEqualOperator(value)) {
-      setResult(input + '=' + eval(input));
+      handleEqual();
     }
-  }
+  };
 
   return (
     <div className="calculator">
-      <DisplayPanel input={input} result={result} />
+      <DisplayPanel input={input} answer={answer} expression={expression} />
       <InputPanel onClick={handleClick} />
     </div>
   );

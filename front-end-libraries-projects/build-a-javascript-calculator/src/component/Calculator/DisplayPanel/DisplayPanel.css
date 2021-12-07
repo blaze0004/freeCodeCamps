@@ -1,7 +1,19 @@
 .display-panel {
-    background-color: aliceblue;
+    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    border: 1px solid orange;
+    border: 1px solid white;
+}
+
+.display-panel-input {
+    min-height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: orange;
+}
+
+#display {
+    color: white;
 }

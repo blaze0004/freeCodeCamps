@@ -45,7 +45,7 @@ const InputPanel: React.FC<InputPanelProps> = (props) => {
         onClick: props.onClick,
         text: "-",
         value: "-",
-        id: "minus",
+        id: "subtract",
       },
       {
         onClick: props.onClick,
@@ -69,7 +69,7 @@ const InputPanel: React.FC<InputPanelProps> = (props) => {
         onClick: props.onClick,
         text: "+",
         value: "+",
-        id: "plus",
+        id: "add",
       },
       {
         onClick: props.onClick,
@@ -93,7 +93,7 @@ const InputPanel: React.FC<InputPanelProps> = (props) => {
         onClick: props.onClick,
         text: "=",
         value: "=",
-        id: "equal",
+        id: "equals",
       },
       {
         onClick: props.onClick,
