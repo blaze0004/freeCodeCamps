@@ -1,141 +1,110 @@
-import { RefObject, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import useAudioPlayer from "./hooks/useAudioPlayer";
+import useLength from "./hooks/useLength";
+import useTimer from "./hooks/useTimer";
 
 const DEFAULT_BREAK_Length: number = 300;
 const DEFAULT_SESSION_Length: number = 1500;
-const NUMBER_OF_BREAK_ALLOWED: number = 4;
 
-let timerInterval: NodeJS.Timeout;
-
-export const usePomodoraClock = (audioRef: RefObject<HTMLAudioElement>): IPomodoraClock => {
-  const [numberOfbreaksDone, setNumberOfBreaksDone] = useState(0);
-  const [timer, setTimer] = useState(DEFAULT_SESSION_Length);
-  const [breakLength, setBreakLength] = useState(DEFAULT_BREAK_Length);
-  const [sessionLength, setSessionLength] = useState(DEFAULT_SESSION_Length);
-  const [isLengthChanged, setIsLengthChanged] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isBreakTime, setIsBreakTime] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-
+function usePrevious<T>(value: T) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef<T>();
+  // Store current value in ref
   useEffect(() => {
-    if (isPlayingAudio) {
-      setTimeout(() => {
-        if (audioRef.current) {
-          console.log('first')
-          audioRef.current.src = '';
-          setIsPlayingAudio(false);
-        }
-      }, 2000)
-    }
-  }, [isPlayingAudio])
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
+}
 
-  useEffect(() => {
-    if (isLengthChanged) {
-      setTimer(sessionLength);
-      setIsLengthChanged(false);
-    }
-  }, [isLengthChanged]);
-
-  useEffect(() => {
-    if (isBreakTime) {
-      setIsPlaying(true);
-    }
-  }, [isBreakTime])
+export const usePomodoraClock = (): IPomodoraClock => {
+  const [mode, setMode] = useState<'session' | 'break'>('session');
+  const prevMode = usePrevious(mode);
+  const [breakLength, setBreakLength] = useLength(DEFAULT_BREAK_Length);
+  const [timer, timerState, setTimer, setTimerState] = useTimer(DEFAULT_SESSION_Length);
+  const [sessionLength, setSessionLength] = useLength(DEFAULT_SESSION_Length);
+  const [setIsPlayingAudio] = useAudioPlayer();
 
   const manageLength = (
-    type: "session" | "break",
+    selectedMode: TMode,
     isIncrement: boolean = false
   ) => {
-    const add = isIncrement ? 60 : -60;
-    if (type === "session") {
-      if (sessionLength + add > 60 * 60 || sessionLength + add <= 0) {
-        return;
-      }
-      setSessionLength((prev) => prev + add);
-      setIsLengthChanged(true);
-    } else {
-      if (breakLength + add > 60 * 60 || breakLength + add <= 0) {
-        return;
-      }
-      setBreakLength((prev) => prev + add);
-      setIsLengthChanged(true);
+    const action = isIncrement ? 'increment' : 'decrement';
+    switch (selectedMode) {
+      case 'break':
+        setBreakLength(action);
+        break;
+      case 'session':
+        setSessionLength(action)
     }
   };
+
+  useEffect(() => {
+    if (timerState === 'reset') {
+      setTimer(sessionLength)
+    }
+  }, [sessionLength])
+
+  useEffect(() => {
+    if (prevMode !== mode) {
+      if (timerState === 'reset') {
+        return;
+      }
+      setIsPlayingAudio(true);
+      setTimeout(() => {
+        setTimerState({
+          type: 'resetAndPlay',
+          payload: mode === 'session' ? sessionLength : breakLength
+        });
+      }, 1000)
+    }
+  }, [mode])
 
   useEffect(() => {
     if (timer <= 0) {
-      if (isBreakTime) {
-        setTimer(sessionLength);
-        setIsPlaying(true);
-        setIsBreakTime(false);
-      } else {
-        setTimer(breakLength);
-        setIsBreakTime(true);
-      }
-      setIsPlaying(false);
-      if (audioRef.current) {
-        audioRef.current.src = './assets/beep.wav';
-        audioRef.current.play().then(() => {
-          setIsPlayingAudio(true);
-        }).catch(() => {
-          if (audioRef.current && !isPlayingAudio) {
-            console.log('second')
-            audioRef.current.src = '';
-          }
-        });
-      }
+      setMode(prev => prev === 'break' ? 'session' : 'break');
+      setTimerState({ type: 'pause' });
     }
   }, [timer]);
 
-  useEffect(() => {
-    if (isPlaying) {
-      timerInterval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-    } else {
-      clearInterval(timerInterval);
-    }
-
-    return () => {
-      clearInterval(timerInterval);
-    };
-  }, [isPlaying]);
-
   const playPause = () => {
-    setIsPlaying((prev) => !prev);
+    if (timerState === 'reset') {
+      setTimer(sessionLength);
+    }
+    
+    setTimerState({
+      type: timerState !==  'play' ? 'play' : 'pause'
+    })
   };
 
   const reset = () => {
-    setNumberOfBreaksDone(0);
-    setTimer(DEFAULT_SESSION_Length);
-    setBreakLength(DEFAULT_BREAK_Length);
-    setSessionLength(DEFAULT_SESSION_Length);
-    setIsLengthChanged(false);
-    setIsPlaying(false);
-    setIsBreakTime(false);
-    
-    if (audioRef.current) {
-      console.log('third')
-      audioRef.current.src = '';
-    }
+    setTimerState({ type: 'reset' });
+    setBreakLength('reset')
+    setSessionLength('reset');
+    setIsPlayingAudio(false);
+    setMode('session');
   };
 
   return {
     breakLength,
     sessionLength,
     timer,
-    isBreakTime,
+    mode,
     playPause,
     reset,
     manageLength,
   };
 };
 
+type TMode = 'session' | 'break';
+
 export interface IPomodoraClock {
   breakLength: number;
   sessionLength: number;
   timer: number;
-  isBreakTime: boolean;
+  mode: TMode;
   playPause: () => void;
   reset: () => void;
-  manageLength: (type: "session" | "break", isIncrement?: boolean) => void;
+  manageLength: (type: TMode, isIncrement?: boolean) => void;
 }

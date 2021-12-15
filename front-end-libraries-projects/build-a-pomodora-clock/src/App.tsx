@@ -1,10 +1,8 @@
-import React, { useRef } from "react";
 import "./App.css";
 import { usePomodoraClock } from "./PomodoraClock";
 
 function App() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const pomodoraClock = usePomodoraClock(audioRef);
+  const pomodoraClock = usePomodoraClock();
 
   const getTimerTime = () => {
     const minutes = Math.floor(pomodoraClock.timer / 60);
@@ -40,14 +38,14 @@ function App() {
         </div>
       </div>
       <div id="timer">
-        <div id="timer-label">{pomodoraClock.isBreakTime ? "Break" : "Session"}</div>
+        <div id="timer-label">{pomodoraClock.mode === 'break' ? "Break" : "Session"}</div>
         <div id="time-left">{getTimerTime()}</div>
       </div>
       <div id="actions">
         <button id="start_stop" onClick={() => pomodoraClock.playPause()}>⏯️</button>
         <button id="reset" onClick={() => pomodoraClock.reset()}>🔃</button>
       </div>
-      <audio id="beep" loop={true} ref={audioRef} />
+      <audio id="beep" src='' />
     </div>
   );
 }
