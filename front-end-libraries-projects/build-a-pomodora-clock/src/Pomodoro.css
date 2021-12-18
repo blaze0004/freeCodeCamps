@@ -1,0 +1,118 @@
+.pomodoro {
+    min-width: 512px;
+    min-height: 360px;
+    display: flex;
+    position: relative;
+}
+
+.pomodoro  .upper, .pomodoro .lower {
+    background: red;
+    flex: 1;
+}
+
+.pomodoro .upper {
+    border-radius: 350px 20% 0 460px;
+}
+
+.pomodoro .lower {
+    border-radius: 20% 350px 460px 0;
+}
+
+.pomodoro .time {
+    position: absolute;
+    top: 42%;
+    z-index: 9999;
+    right: 0;
+    left: 0;
+    overflow: hidden;   
+    text-align: right;
+}
+
+.pomodoro .arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 9999;
+    right: 0;
+    left: 0;
+}
+
+.pomodoro .seperator {
+    border-bottom: 2.5px black solid;
+    top: 50%;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+}
+
+.pomodoro .timer {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+}
+
+.pomodoro .timer .time-left {
+    border: 1px solid black;
+    width: 10px;
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+.pomodoro .timer .timer-label {
+    margin-bottom: 10px;
+}
+
+
+div#break {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+div#session {
+    position: absolute;
+    top: 15%;
+    right: 10%;
+}
+
+div#timer {
+    position: absolute;
+    bottom: 20%;
+    right: 0;
+    left: 0;
+}
+
+
+span.upper::before {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 20px;
+    background: green;
+    left: 33%;
+    border-radius: 50%;
+    top: 4%;
+}
+
+span.lower::after {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 20px;
+    background: green;
+    right: 33%;
+    border-radius: 50%;
+    top: 4%;
+}
+
+span.lower::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 90px;
+    background: green;
+    left: 48%;
+    border-radius: 50%;
+    bottom: 80%;
+}

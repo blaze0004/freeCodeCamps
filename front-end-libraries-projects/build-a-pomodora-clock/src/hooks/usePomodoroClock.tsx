@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import useAudioPlayer from "./hooks/useAudioPlayer";
-import useLength from "./hooks/useLength";
-import useTimer from "./hooks/useTimer";
+import useAudioPlayer from "./useAudioPlayer";
+import useLength from "./useLength";
+import useTimer, { TimerStateType } from "./useTimer";
 
 const DEFAULT_BREAK_Length: number = 300;
 const DEFAULT_SESSION_Length: number = 1500;
@@ -18,7 +18,7 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-export const usePomodoraClock = (): IPomodoraClock => {
+export const usePomodoroClock = (): IPomodoraClock => {
   const [mode, setMode] = useState<'session' | 'break'>('session');
   const prevMode = usePrevious(mode);
   const [breakLength, setBreakLength] = useLength(DEFAULT_BREAK_Length);
@@ -91,6 +91,7 @@ export const usePomodoraClock = (): IPomodoraClock => {
     sessionLength,
     timer,
     mode,
+    timerState,
     playPause,
     reset,
     manageLength,
@@ -104,6 +105,7 @@ export interface IPomodoraClock {
   sessionLength: number;
   timer: number;
   mode: TMode;
+  timerState: TimerStateType;
   playPause: () => void;
   reset: () => void;
   manageLength: (type: TMode, isIncrement?: boolean) => void;

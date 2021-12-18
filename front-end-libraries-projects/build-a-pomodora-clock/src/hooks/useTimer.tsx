@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 let interval: NodeJS.Timeout | null = null;
 
-const useTimer = (defaultTime: number): [number, ActionType, Dispatch<SetStateAction<number>>, Dispatch<SetStateAction<TUseTimerAction>>] => {
+const useTimer = (defaultTime: number): [number, TimerStateType, Dispatch<SetStateAction<number>>, Dispatch<SetStateAction<TUseTimerAction>>] => {
     const [timer, setTimer] = useState(defaultTime);
     const [timerState, setTimerState] = useState<TUseTimerAction>({
         type: 'reset',
@@ -41,10 +41,10 @@ const useTimer = (defaultTime: number): [number, ActionType, Dispatch<SetStateAc
     return [timer, timerState.type, setTimer, setTimerState]
 }
 
-type ActionType = 'play' | 'pause' | 'reset' | 'resetAndPlay';
+export type TimerStateType = 'play' | 'pause' | 'reset' | 'resetAndPlay';
 
 type TUseTimerAction = {
-    type: ActionType;
+    type: TimerStateType;
     payload?: number;
 };
 
