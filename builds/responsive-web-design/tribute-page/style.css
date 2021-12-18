@@ -1,0 +1,42 @@
+div#main {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    background: beige;
+    box-sizing: border-box;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+#image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+h1#title {
+    margin: 0;
+}
+
+div#img-div {
+    background: white;
+    width: 95vw;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+section#tribute-info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+li {
+    margin-bottom: 10px;
+    line-height: 1.25
+}
