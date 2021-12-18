@@ -12,7 +12,7 @@ const useAudioPlayer = (): [Dispatch<SetStateAction<boolean>>] => {
 
     if (isPlaying) {
       audioEl.loop = true;
-      audioEl.src = "/assets/beep.wav";
+      audioEl.src = "./assets/beep.wav";
       audioEl
         .play()
         .then(() => {
