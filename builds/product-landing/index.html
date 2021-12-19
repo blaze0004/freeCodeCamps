@@ -1,0 +1,141 @@
+<!-- 
+
+Hello Camper!
+
+Please read the README below in the JS Editor before beginning. Feel free to delete this message once you have read it. Good luck and Happy Coding! 
+
+- The freeCodeCamp Team 
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Landing Page</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <header id="header">
+    <nav id="nav-bar">
+      <ul class="flexRow">
+        <span class="flex">
+          <li><img width="100%" id="header-img" src="https://cdn.freecodecamp.org/testable-projects-fcc/images/product-landing-page-logo.png" alt="logo" /></li>
+        </span>
+        <span class="flex"></span>
+        <span class="flex flexRow flexRowSpaceBetween">
+          <li><a class="nav-link" href="#feature">Feature</a></li>
+          <li><a class="nav-link" href="#how-it-works">How it works</a></l>
+          <li><a class="nav-link" href="#pricing">Pricing</a></li>
+        </span>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="flexColumn">
+      <section id="feature" class="flexColumn">
+        <form action="www.freecodecamp.com/email-submit" id="form">
+          <h3>Handcrafted, home-made masterpieces</h3>
+          <input type="email" name="email" id="email" placeholder="Enter your email..." required>
+          <br>
+          <input type="submit" id="submit" value="Get Started" />
+        </form>
+      </section>
+      <section id="how-it-works" class="flexColumn">
+        <ul>
+          <li class="flexRow">
+            <span class="icon fas fa-fire"></span>
+            <span class="info">
+              <h3>Premium Materials</h3>
+              <p>Our trombones use the shiniest brass which is sourced locally. This will increase the longevity of your purchase.</p>
+            </span>
+          </li>
+          <li>
+            <span class="icon fas fa-truck"></span>
+            <div class="info">
+              <h3>Fast Shipping</h3>
+              <p>We make sure you recieve your trombone as soon as we have finished making it. We also provide free returns if you are not satisfied.</p>
+            </div>
+          </li>
+          <li>
+            <span class="icon fas fa-battery-full"></span>
+            <div class="info flexColumn">
+              <h3>Quality Assurance</h3>
+              <p>For every purchase you make, we will ensure there are no damages or faults and we will check and test the pitch of your instrument.</p>
+            </div>
+          </li>
+          <li>
+            <iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/y8Yv4pnO7qc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+          </li>
+        </ul>
+      </section>
+      <section id="pricing" class="flexRow flexRowSpaceBetween">
+        <div class="priceBox">
+          <div class="title">
+            <h3>Teron Tranbon</h3>
+          </div>
+          <div class="flexColumn info">
+            <span class="price">600$</span>
+            <ul class="services">
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+            </ul>
+            <button>Select</button>
+          </div>
+        </div>
+        <div class="priceBox">
+          <div class="title">
+            <h3>Teron Tranbon</h3>
+          </div>
+          <div class="flexColumn info">
+            <span class="price">600$</span>
+            <ul class="services">
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+            </ul>
+            <button>Select</button>
+          </div>
+        </div>
+        <div class="priceBox">
+          <div class="title">
+            <h3>Teron Tranbon</h3>
+          </div>
+          <div class="flexColumn info">
+            <span class="price">600$</span>
+            <ul class="services">
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+              <li>lorem impsum</li>
+            </ul>
+            <button>Select</button>
+          </div>
+        </div>
+      </section>
+      <div>
+        <footer class="flexColumn flexColumnEnd">
+          <span>
+            <ul class="flexRow flexRowSpaceBetween">
+              <li>Privacy</li>
+              <li>Term</li>
+              <li>Contact</li>
+            </ul>
+          </span>
+          <span class="flexRowEnd">Copyright 2016, Original Trombones</span>
+        </footer>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
