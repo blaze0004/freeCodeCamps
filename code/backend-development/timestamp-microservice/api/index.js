@@ -3,6 +3,7 @@
 
 // init project
 var express = require('express');
+const path = require('path');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -10,15 +11,12 @@ var app = express();
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
-// http://expressjs.com/en/starter/static-files.html
-/**
- * Commented as vercel doesn't recommend it.
- * app.use(express.static('public'));
- */
+// http://expressjs.com/en/starter/static-files.html/**
+app.use('/static', express.static(path.join(__dirname + '/public')));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + '../views/index.html');
+  res.sendFile(path.join(__dirname,'/views/index.html'));
 });
 
 
@@ -62,6 +60,6 @@ app.get('/api/:time', (req, res) => {
 })
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
