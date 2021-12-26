@@ -18,7 +18,7 @@ app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 20
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '../views/index.html');
 });
 
 
