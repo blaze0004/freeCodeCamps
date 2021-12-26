@@ -56,7 +56,9 @@ app.get('/api/:time', (req, res) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname,'/views/index.html'));
+  res.json({
+    haha: true
+  });
 });
 
 // listen for requests :)
