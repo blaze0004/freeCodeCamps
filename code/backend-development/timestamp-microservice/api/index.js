@@ -4,6 +4,7 @@
 // init project
 var express = require('express');
 const path = require('path');
+const fs = require('fs');
 var app = express();
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -56,8 +57,17 @@ app.get('/api/:time', (req, res) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  res.json({
-    haha: true
+  const file = path.join(__dirname, "../views/index.html");
+  fs.readFileSync(file, (err, data) => {
+    if (err) {
+      console.log({ file, err })
+      return res.json({
+        error: "File not found"
+      })
+    }
+
+    console.log({ file })
+    return res.sendFile(file);
   });
 });
 
