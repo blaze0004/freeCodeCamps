@@ -68,7 +68,7 @@ userRouter.get('/:id/logs', (req, res) => {
             }
 
             return res.json({
-                username: user.name,
+                username: user.username,
                 count: exercises.length,
                 log: exercises.map(x => ({
                     description: x.description,
