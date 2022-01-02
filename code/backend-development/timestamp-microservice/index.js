@@ -13,8 +13,7 @@ var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html/**
-app.use('/static', express.static(path.join(__dirname + '/public')));
-
+app.use(express.static(path.resolve(__dirname, "public")));
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
@@ -57,18 +56,7 @@ app.get('/api/:time', (req, res) => {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  const file = path.join(__dirname, "../views/index.html");
-  fs.readFileSync(file, (err, data) => {
-    if (err) {
-      console.log({ file, err })
-      return res.json({
-        error: "File not found"
-      })
-    }
-
-    console.log({ file })
-    return res.sendFile(file);
-  });
+    return res.sendFile(path.resolve(__dirname, "views", "index.html"));
 });
 
 // listen for requests :)
