@@ -24,11 +24,11 @@ userRouter.post('/:id/exercises', (req, res) => {
             }
 
             return res.json({
-                _id: data._id,
                 username: user.username,
-                date: data.date.toDateString(),
                 description: data.description,
-                duration: data.duration
+                duration: data.duration,
+                date: data.date.toDateString(),
+                _id: data._id,
             })
         })
     })
@@ -73,7 +73,7 @@ userRouter.get('/:id/logs', (req, res) => {
                 log: exercises.map(x => ({
                     description: x.description,
                     duration: x.duration,
-                    date: x.date.toUTCString()
+                    date: x.date.toDateString()
                 }))
             })
         })
