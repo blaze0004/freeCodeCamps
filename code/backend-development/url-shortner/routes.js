@@ -1,40 +1,30 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const bodyparser = require('body-parser');
-const mongoose = require('mongoose');
 const dns = require('dns');
-const URL = require('url')
-const app = express();
 const path = require('path')
+const express = require('express');
+const mongoose = require('mongoose');
+const dbConnection = require('./db.connection');
 
-// Basic Configuration
-const port = process.env.PORT || 3000;
+const urlShortnerRouter = express.Router();
 
-
-app.use(cors());
-app.use(bodyparser.urlencoded({ extended: true }))
-app.use(express.static(path.resolve(__dirname, 'public')))
-
-mongoose.connect(process.env['MONGODB_CONNECTION_STRING'], { useNewUrlParser: true })
+urlShortnerRouter.use(express.static(path.resolve(__dirname, 'public')))
 
 const shortedUrlsSchema = new mongoose.Schema({
   url: String
 })
 
-const ShortedURLS = mongoose.model('shorted_urls', shortedUrlsSchema)
+const ShortedURLS = dbConnection.model('shorted_urls', shortedUrlsSchema)
 
-app.get('/', function(req, res) {
+urlShortnerRouter.get('/', function(req, res) {
   res.sendFile(path.resolve(__dirname, 'views', 'index.html'));
 });
 
 
 // Your first API endpoint
-app.get('/api/hello', function(req, res) {
+urlShortnerRouter.get('/api/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-app.post('/api/shorturl', (req, res) => {
+urlShortnerRouter.post('/api/shorturl', (req, res) => {
   const { body: { url } } = req;
 
   const getHostName = (urlString) => {
@@ -77,7 +67,7 @@ app.post('/api/shorturl', (req, res) => {
   })
 })
 
-app.get('/api/shorturl/:id', (req, res) => {
+urlShortnerRouter.get('/api/shorturl/:id', (req, res) => {
   ShortedURLS.findById(req.params.id, (err, data) => {
     if (err) {
       res.json({
@@ -89,6 +79,4 @@ app.get('/api/shorturl/:id', (req, res) => {
   })
 })
 
-app.listen(port, function() {
-  console.log(`Listening on port ${port}`);
-});
+module.exports = urlShortnerRouter

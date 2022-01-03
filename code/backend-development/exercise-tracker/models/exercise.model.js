@@ -1,6 +1,8 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 
+const dbConnection = require('../db.connection');
+
 const exerciseSchema = new mongoose.Schema({
     userId: ObjectId,
     description: String,
@@ -8,4 +10,4 @@ const exerciseSchema = new mongoose.Schema({
     date: Date
 }) 
 
-exports.Exercises = mongoose.model("exercises", exerciseSchema);
+exports.Exercises = dbConnection.model("exercises", exerciseSchema);
