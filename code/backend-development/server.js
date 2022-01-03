@@ -21,6 +21,8 @@ app.use('/timestamp-microservice', require('./timestamp-microservice/routes'))
 
 app.use('/url-shortner', require('./url-shortner/routes'))
 
+app.use('/file-metadata-microservice', require('./file-metadata-microservice/routes'))
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
