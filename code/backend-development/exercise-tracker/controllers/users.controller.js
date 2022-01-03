@@ -74,7 +74,7 @@ userRouter.get('/:id/logs', (req, res) => {
                 log: exercises.map(x => ({
                     description: x.description,
                     duration: x.duration,
-                    date: x.date.toDateString()
+                    date: x.date.toDateString(),
                 }))
             })
         })
