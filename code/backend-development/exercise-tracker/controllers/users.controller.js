@@ -28,7 +28,7 @@ userRouter.post('/:id/exercises', (req, res) => {
                 description: data.description,
                 duration: data.duration,
                 date: data.date.toDateString(),
-                _id: data._id,
+                _id: id,
             })
         })
     })
@@ -70,6 +70,7 @@ userRouter.get('/:id/logs', (req, res) => {
             return res.json({
                 username: user.username,
                 count: exercises.length,
+                _id: id,
                 log: exercises.map(x => ({
                     description: x.description,
                     duration: x.duration,
